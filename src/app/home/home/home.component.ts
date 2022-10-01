@@ -32,13 +32,11 @@ export class HomeComponent implements OnInit {
   }
   loadProjects()
   {
-    import('../../projects/projects.module').then((m)=>{
-      const lazyModule = m.ProjectsModule;
-      const component = lazyModule.component;
-      const moduleRef = createNgModule(lazyModule,this.injector);
+    import('../../projects/projects/projects.component').then((m)=>{
+      const projectsComponent = m.ProjectsComponent;
       if(this.container)
       {
-        this.container.createComponent(component,{ngModuleRef:moduleRef});
+        this.container.createComponent(projectsComponent);
       }
     })
   }

@@ -37,5 +37,13 @@ Remove the already written code and use this one!
 bootstrapApplication(AppComponent)
 .catch((err)=>console.log(err));
 
-Now there is no Error. But we haven't provided routes yet!
+Now there is no Error. But we haven't provided routes yet! For that what we have to do is:
+
+bootstrapApplication(AppComponent,{
+  providers:[
+    importProvidersFrom(RouterModule.forRoot(routes))
+  ]
+})
+  
+After doing this all the services from RouterModule will be available in standalone component!
 

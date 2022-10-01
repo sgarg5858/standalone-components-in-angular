@@ -6,9 +6,13 @@ export const routes: Routes = [
         path:'login',
         component:LoginComponent
       },
+    // {
+    //   path:'home',
+    //   loadChildren:()=>import('./home/home.routes').then(m=>m.homeRoutes)
+    // },
     {
       path:'home',
-      loadChildren:()=>import('./home/home.module').then(m=>m.HomeModule)
+      loadComponent:()=>import('./home/home/home.component').then(m=>m.HomeComponent)
     },
     {
       path:'**',

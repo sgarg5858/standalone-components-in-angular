@@ -1,27 +1,41 @@
 # StandaloneComponents
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.1.
+1-app-using-scam-pattern
 
-## Development server
+In this branch we have initial setup of the application which lazy loads Modules with and without router! We have used SCAM(Single Component Angular Module) Pattern to setup this basic project => Standalone Components behind the scenes used SCAM Pattern, every declarable have their own module.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+We will migrate this project to use Standalone Components!
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Lets start with AppComponent We need to set standalone flag to true with in Component Decorator
 
-## Build
+As soon as we make AppComponent standalone we get this below error:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Component AppComponent is standalone, and cannot be declared in an NgModule. Did you mean to import it instead?
+ 
+It proves that Standalone Components behind the scenes use SCAM Pattern! 
+We have to remove AppComponent from AppModule from both the declarations array and the bootstrap array. How will our Application bootstrap then?
 
-## Running unit tests
+We also get one more error:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+'router-outlet' is not a known element:
+1. If 'router-outlet' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
 
-## Running end-to-end tests
+This is coming because we are using RouterModule in AppComponent, But Router Module is not available to AppComponent Now as our AppComponent is 
+standalone , it will manage all its dependencies on its own now! So we have to provide the RouterModule in AppComponent in imports Array!
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Now our App Builds Successfully! But how will our AppComponent be bootstrapped as bootstrap array is empty?
 
-## Further help
+For that Angular throws error in console:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+main.ts:11 ERROR Error: NG0403: The module AppModule was bootstrapped, but it does not declare "@NgModule.bootstrap" components nor a "ngDoBootstrap" method. Please define one of these.
+
+Now we have to open main.ts file to change how Angular bootstraps , since we want to get rid of AppModule!
+
+Remove the already written code and use this one!
+
+bootstrapApplication(AppComponent)
+.catch((err)=>console.log(err));
+
+Now there is no Error. But we haven't provided routes yet!
+

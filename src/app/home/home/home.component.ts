@@ -22,13 +22,11 @@ export class HomeComponent implements OnInit {
   }
   loadSkills()
   {
-    import('../../skills/skills.module').then((m)=>{
-      const lazyModule = m.SkillsModule;
-      const component = lazyModule.component;
-      const moduleRef = createNgModule(lazyModule,this.injector);
+    import('../../skills/skills/skills.component').then((m)=>{
+      const skillsComponent = m.SkillsComponent;
       if(this.container)
       {
-        this.container.createComponent(component,{ngModuleRef:moduleRef});
+        this.container.createComponent(skillsComponent);
       }
     })
   }
